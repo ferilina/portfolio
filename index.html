@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fenet Getu | Full Stack Website Developer</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===================== GENERAL ===================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Tahoma,Verdana,sans-serif;
+}
+
+:root{
+    --primary:#7c7cff;
+    --bg:#000;
+    --card:#020617;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+    overflow-x:hidden;
+    position:relative;
+}
+
+/* ===================== MOVING BACKGROUND CIRCLES ===================== */
+.circle{
+    position:fixed;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:rgba(124,124,255,0.25);
+    pointer-events:none;
+    animation:float 10s linear infinite;
+    z-index:0;
+}
+
+@keyframes float{
+    0% { transform: translateY(0) translateX(0); opacity:0.5; }
+    50% { transform: translateY(-100px) translateX(50px); opacity:0.7; }
+    100% { transform: translateY(0) translateX(0); opacity:0.5; }
+}
+
+/* ===================== CONTAINER ===================== */
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    position:relative;
+    z-index:1;
+}
+
+/* ===================== NAVIGATION ===================== */
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:rgba(0,0,0,.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #1e293b;
+    z-index:1000;
+}
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 0;
+}
+.logo{
+    font-size:26px;
+    font-weight:700;
+    color:var(--primary);
+}
+.nav-links{
+    list-style:none;
+    display:flex;
+    gap:30px;
+}
+.nav-links a{
+    color:var(--text);
+    text-decoration:none;
+    transition:.3s;
+}
+.nav-links a:hover{
+    color:var(--primary);
+}
+
+/* ===================== HERO ===================== */
+.hero{
+    padding:160px 0 120px;
+    background:radial-gradient(circle at top,#1e1b4b,#000 65%);
+}
+.hero-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+}
+.hero h1{
+    font-size:48px;
+    margin-bottom:15px;
+}
+.hero span{color:var(--primary);}
+.hero p{
+    color:var(--muted);
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+/* ===================== BUTTONS ===================== */
+.btn{
+    padding:14px 36px;
+    background:var(--primary);
+    color:#000;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:700;
+    display:inline-block;
+    transition:.3s;
+}
+.btn-outline{
+    background:none;
+    border:2px solid var(--primary);
+    color:var(--primary);
+    margin-left:12px;
+}
+.btn:hover,
+.skill:hover,
+.project:hover,
+.certificate:hover,
+.coming-soon:hover{
+    box-shadow:0 0 20px rgba(124,124,255,.7),
+               0 0 40px rgba(124,124,255,.4);
+    transform:translateY(-5px);
+}
+
+/* ===================== PHOTO ===================== */
+.photo-wrapper{
+    position:relative;
+    width:300px;
+    height:300px;
+    margin:auto;
+}
+.photo-ring{
+    position:absolute;
+    inset:-12px;
+    border-radius:50%;
+    background:conic-gradient(#7c7cff,#22d3ee,#a78bfa,#7c7cff);
+    animation:spin 8s linear infinite;
+    filter:blur(2px);
+}
+.photo-glass{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(8px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 0 60px rgba(124,124,255,.6);
+}
+.photo-glass img{
+    width:88%;
+    height:88%;
+    object-fit:cover;
+    border-radius:50%;
+}
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+/* ===================== SECTIONS ===================== */
+.section{
+    padding:100px 0;
+}
+.section-title{
+    text-align:center;
+    font-size:36px;
+    margin-bottom:60px;
+}
+
+/* ===================== ABOUT ===================== */
+#about p{
+    max-width:850px;
+    margin:auto;
+    text-align:center;
+    color:var(--muted);
+    font-size:18px;
+}
+
+/* ===================== SKILLS ===================== */
+.skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:30px;
+}
+.skill{
+    background:var(--card);
+    padding:35px;
+    border-radius:18px;
+    text-align:center;
+    border:1px solid #1e293b;
+    transition:.3s;
+}
+.skill i{
+    font-size:40px;
+    color:var(--primary);
+    margin-bottom:12px;
+    animation:floatSkill 3s ease-in-out infinite;
+}
+@keyframes floatSkill {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* ===================== PROJECTS ===================== */
+.projects-grid, .coming-soon-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:40px;
+}
+.project, .coming-soon{
+    background:var(--card);
+    border-radius:20px;
+    padding:30px;
+    border:1px solid #1e293b;
+    transition:.3s;
+    text-align:center;
+}
+.project img, .coming-soon img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:14px;
+    margin-bottom:18px;
+    animation:slide 4s ease-in-out infinite;
+}
+.project p, .coming-soon p{color:var(--muted);}
+@keyframes slide {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(15px); }
+  100% { transform: translateX(0); }
+}
+
+/* ===================== CERTIFICATES ===================== */
+.certificates-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+}
+.certificate{
+    background:var(--card);
+    border-radius:18px;
+    padding:30px;
+    border:1px solid #1e293b;
+    text-align:center;
+    transition:.3s;
+}
+.certificate i{
+    font-size:40px;
+    color:var(--primary);
+    margin-bottom:15px;
+}
+.certificate span{
+    display:inline-block;
+    margin-top:12px;
+    padding:6px 14px;
+    background:#1e1b4b;
+    color:var(--primary);
+    border-radius:20px;
+    font-size:14px;
+}
+
+/* ===================== CONTACT ===================== */
+.contact-grid{
+    display:flex;
+    gap:50px;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:flex-start;
+}
+.contact-info{
+    flex:1;
+    min-width:280px;
+}
+.contact-form{
+    flex:1;
+    min-width:300px;
+}
+.contact-item{
+    display:flex;
+    gap:18px;
+    margin-bottom:22px;
+    color:var(--muted);
+    align-items:center;
+}
+.contact-icon{
+    width:48px;
+    height:48px;
+    background:#1e1b4b;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--primary);
+}
+.contact-form input,
+.contact-form textarea{
+    width:100%;
+    padding:14px 18px;
+    margin-bottom:18px;
+    border-radius:10px;
+    border:1px solid #1e293b;
+    background:var(--card);
+    color:var(--text);
+    font-size:16px;
+}
+.contact-form button{
+    padding:14px 36px;
+    border:none;
+    border-radius:10px;
+    background:var(--primary);
+    color:#000;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+.contact-form button:hover{
+    box-shadow:0 0 20px rgba(124,124,255,.7),
+               0 0 40px rgba(124,124,255,.4);
+}
+
+/* ===================== FOOTER ===================== */
+footer{
+    border-top:1px solid #1e293b;
+    padding:50px 0 25px;
+    text-align:center;
+}
+.social a{
+    color:var(--text);
+    font-size:22px;
+    margin:0 12px;
+}
+.copy{
+    margin-top:25px;
+    color:#6b7280;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;text-align:center;}
+    .contact-grid{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===================== NAVIGATION ===================== -->
+<nav>
+<div class="container navbar">
+<div class="logo">Fenet Getu</div>
+<ul class="nav-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#certificates">Certificates</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section id="home" class="hero">
+<div class="container hero-grid">
+<div>
+<h1>Hello, I’m <span>Fenet Getu</span></h1>
+<p>Full Stack Website Developer building modern, clean, and scalable web applications.</p>
+<a href="#projects" class="btn">View Projects</a>
+<a href="#contact" class="btn btn-outline">Contact Me</a>
+</div>
+
+<div class="photo-wrapper">
+<div class="photo-ring"></div>
+<div class="photo-glass">
+<img src="https://i.pinimg.com/736x/f1/59/70/f1597088385c013a6b3121042750ed3d.jpg" alt="Fenet Getu">
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" class="section">
+<div class="container">
+<h2 class="section-title">About Me</h2>
+<p>
+I am Fenet Getu, a passionate Full Stack Website Developer. I create modern, responsive, and user-friendly web applications, specializing in clean code, scalable architecture, and solving complex problems efficiently. My mission is to turn ideas into fully functional, elegant digital solutions.
+</p>
+</div>
+</section>
+
+<!-- ===================== SKILLS ===================== -->
+<section id="skills" class="section">
+<div class="container">
+<h2 class="section-title">Skills</h2>
+<div class="skills-grid">
+<div class="skill"><i class="fab fa-html5"></i><h3>HTML</h3></div>
+<div class="skill"><i class="fab fa-css3-alt"></i><h3>CSS</h3></div>
+<div class="skill"><i class="fab fa-js"></i><h3>JavaScript</h3></div>
+<div class="skill"><i class="fab fa-php"></i><h3>PHP</h3></div>
+<div class="skill"><i class="fab fa-java"></i><h3>Java</h3></div>
+<div class="skill"><i class="fas fa-code"></i><h3>C++</h3></div>
+</div>
+</div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section id="projects" class="section">
+<div class="container">
+<h2 class="section-title">Projects</h2>
+<div class="projects-grid">
+<div class="project">
+<img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" alt="Portfolio Project">
+<h3>Personal Portfolio Website</h3>
+<p>Responsive portfolio built using HTML, CSS, and JavaScript.</p>
+</div>
+<div class="project">
+<img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4" alt="Doubly Linked List Project">
+<h3>Doubly Linked List Project</h3>
+<p>Data structures project implementing doubly linked list in C++.</p>
+<a href="https://github.com/hann2004/DSA_doubly_linked_list_group4" target="_blank" class="btn btn-outline">View on GitHub</a>
+</div>
+</div>
+
+<h2 class="section-title" style="margin-top:60px;">Coming Soon Projects</h2>
+<div class="coming-soon-grid">
+<div class="coming-soon">
+<img src="https://images.unsplash.com/photo-1531497865142-1dfdfe4f4f91" alt="AI Portfolio">
+<h3>AI-Powered Portfolio</h3>
+<p>Coming soon: AI-assisted portfolio website with smart recommendations.</p>
+</div>
+<div class="coming-soon">
+<img src="https://images.unsplash.com/photo-1521791136064-7986c2920216" alt="3D Game Engine">
+<h3>3D Game Engine</h3>
+<p>Coming soon: Developing a lightweight 3D game engine in C++.</p>
+</div>
+<div class="coming-soon">
+<img src="https://images.unsplash.com/photo-1581091215368-83a3b9e546fc" alt="Smart Home App">
+<h3>Smart Home App</h3>
+<p>Coming soon: Cross-platform smart home management application.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===================== CERTIFICATES ===================== -->
+<section id="certificates" class="section">
+<div class="container">
+<h2 class="section-title">Certificates</h2>
+<div class="certificates-grid">
+<div class="certificate">
+<i class="fas fa-certificate"></i>
+<h3>Certificate 1</h3>
+<p>Coming Soon</p>
+<span>Coming Soon</span>
+</div>
+<div class="certificate">
+<i class="fas fa-certificate"></i>
+<h3>Certificate 2</h3>
+<p>Coming Soon</p>
+<span>Coming Soon</span>
+</div>
+<div class="certificate">
+<i class="fas fa-certificate"></i>
+<h3>Certificate 3</h3>
+<p>Coming Soon</p>
+<span>Coming Soon</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" class="section">
+<div class="container">
+<h2 class="section-title">Contact</h2>
+<div class="contact-grid">
+  <!-- Contact Info -->
+  <div class="contact-info">
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fab fa-github"></i></div>
+      <p><a href="https://github.com/ferilina" target="_blank" style="color:var(--text); text-decoration:none;">GitHub</a></p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fab fa-linkedin"></i></div>
+      <p><a href="https://linkedin.com/in/fenetgetu" target="_blank" style="color:var(--text); text-decoration:none;">LinkedIn</a></p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+      <p>fenetgetu777@gmail.com</p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fas fa-phone"></i></div>
+      <p>+2519******</p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+      <p>Arbaminch, Ethiopia</p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fab fa-telegram"></i></div>
+      <p><a href="https://t.me/yourusername" target="_blank" style="color:var(--text); text-decoration:none;">Telegram</a></p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+      <p><a href="https://instagram.com/yourusername" target="_blank" style="color:var(--text); text-decoration:none;">Instagram</a></p>
+    </div>
+  </div>
+
+  <!-- Contact Form -->
+  <div class="contact-form">
+    <form action="#" method="post">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+<div class="social">
+<a href="https://github.com/ferilina" target="_blank"><i class="fab fa-github"></i></a>
+<a href="https://linkedin.com/in/fenetgetu" target="_blank"><i class="fab fa-linkedin"></i></a>
+<a href="https://t.me/yourusername" target="_blank"><i class="fab fa-telegram"></i></a>
+<a href="https://instagram.com/yourusername" target="_blank"><i class="fab fa-instagram"></i></a>
+</div>
+<div class="copy">© 2026 Fenet Getu. All Rights Reserved.</div>
+</footer>
+
+<!-- ===================== BACKGROUND CIRCLES ===================== -->
+<div class="circle" style="top:20%;left:10%;width:120px;height:120px;"></div>
+<div class="circle" style="top:70%;left:80%;width:180px;height:180px;"></div>
+<div class="circle" style="top:50%;left:50%;width:100px;height:100px;"></div>
+
+</body>
+</html>
